@@ -1,0 +1,17 @@
+{
+  "username": "test_user_1",
+  "password": "password123",
+  "role": "FEMTECH_USER",
+  "accountData": {
+    "profile_name": "Test Profile",
+    "registration_date": "20231006_120000",
+    "payment_plan": "basic",
+    "subscription_status": true
+  },
+  "profileData": {
+    "age": "25",
+    "menstrualCycleLength": "28",
+    "periodLength": "5",
+    "mainContraceptiveMethod": "None"
+  }
+}

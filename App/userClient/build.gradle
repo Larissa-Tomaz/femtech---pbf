@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'application'
+}
+
+sourceCompatibility = '11'
+targetCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':protos')  // Define the dependency on the 'protos' subproject
+    implementation 'io.grpc:grpc-netty:1.41.0'
+    implementation 'io.grpc:grpc-protobuf:1.41.0'
+    implementation 'io.grpc:grpc-stub:1.41.0'
+    implementation 'com.google.protobuf:protobuf-java:3.15.8'
+
+    // JUnit for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+}
+
+application {
+    mainClass = 'ClientApp'
+    applicationDefaultJvmArgs = ["-Dhost=localhost", "-Dport=8081"]
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// Creating the fat JAR (uber JAR) by bundling all dependencies
+jar {
+    manifest {
+        attributes(
+            'Main-Class': application.mainClass  // Ensure this points to your actual main class
+        )
+    }
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+tasks.withType(JavaExec) {
+    args = ['localhost', '8081']
+}
+
+// Ensure that the userClient jar task depends on the protos jar task
+tasks.named('jar') {
+    dependsOn(':protos:jar')  // Ensure 'protos:jar' runs before 'userClient:jar'
+}

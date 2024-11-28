@@ -1,0 +1,75 @@
+syntax = "proto3";
+package pbfProto;
+
+import "auth.proto";
+
+// Enum to represent the Data Types
+enum DataType {
+    ACCOUNT_DATA = 0;
+    FERTILITY_DATA = 1;
+    PROFILE_DATA = 2;
+}
+
+// Enum to represent the Purposes
+enum Purpose {
+    USER_CONSULTATION = 0;
+    SERVICE_PROVISION = 1;
+    ANALYTICS = 2;
+    MARKETING = 3;
+    RESEARCH = 4;
+    SHARING = 5;
+}
+
+// Message to represent each entry in the consent matrix
+message ConsentEntry {
+    DataType data_type = 1;
+    Purpose purpose = 2;
+    bool consentGiven = 3;
+}
+
+message Consent {
+    string date = 1;
+    repeated ConsentEntry privacySettings = 3;
+}
+
+// Requests/Responses
+message SetConsentRequest {
+    repeated ConsentEntry privacySettings = 1;
+    string token = 2;
+}
+
+message SetConsentResponse {
+    ErrorMessage errorMessage = 2;
+}
+
+message GetAuthorizedDataTypesRequest {
+    string userId = 1;
+    Purpose purpose = 2;
+}
+
+message GetAuthorizedDataTypesResponse {
+    repeated DataType dataTypes = 1;
+    ErrorMessage errorMessage = 2;
+}
+
+message GetConsentRequest {
+    string userId = 1;
+    ROLE role = 2;
+    string token = 3;
+}
+
+message GetConsentResponse {
+    Consent consentMatrix = 1;
+    ErrorMessage errorMessage = 2;
+}
+
+message GetConsentHistoryRequest {
+    string userId = 1;
+    ROLE role = 2;
+    string token = 3;
+}
+
+message GetConsentHistoryResponse {
+    repeated Consent consentVersions = 1;
+    ErrorMessage errorMessage = 2;
+}

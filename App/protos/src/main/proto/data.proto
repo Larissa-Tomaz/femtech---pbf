@@ -1,0 +1,87 @@
+//
+// Protocol buffers definition for the Data Processing Service.
+//
+
+syntax = "proto3";
+package pbfProto;
+
+import "auth.proto";
+import "consentManager.proto";
+
+
+message FertilityDailyLog {
+    string date = 1;
+    repeated float temperature = 2;
+    repeated int32 bpm = 3;
+    string bleeding = 4;
+    string sexualActivity = 5;
+}
+
+message SubmitDataRequest {
+    FertilityDailyLog fertilityDailyLog = 1;
+    string token = 2;
+}
+
+message SubmitDataResponse {
+    ErrorMessage errorMessage = 1;
+}
+
+
+message DataResponse {
+    ErrorMessage errorMessage = 1;
+}
+
+message DeleteDataRequest {
+    string username = 1;
+    ROLE role = 2;
+    string token = 3;
+    Purpose purpose = 4;
+}
+
+message DeleteDataResponse {
+    ErrorMessage errorMessage = 1;
+}
+
+message StoredData {
+    UserAccountData accountData = 2;
+    UserProfileData profileData = 3;
+    repeated FertilityDailyLog fertilityDailyLog = 4;   
+}
+
+message GetDataRequest {
+    string username = 1;
+    Purpose purpose = 2;
+    string entity = 3;
+    string token = 4;
+}
+
+message GetDataResponse {
+    StoredData storedData = 1;
+    ErrorMessage errorMessage = 2;
+}
+
+
+message DataAccessLog {
+    string logId = 1;
+    string date = 2;
+    string purpose = 3; 
+    repeated DataType data_type = 4; 
+    string entity = 5;
+    ROLE role = 6;
+    string status = 7; //data access accepted or denied
+}
+
+
+message GetDataAccessLogRequest {
+    string username = 1;
+    ROLE role = 2; 
+    string start_date = 3;  
+    string end_date = 4; 
+    string token = 5;
+}
+
+message GetDataAccessLogResponse {
+    repeated DataAccessLog datAccessLog = 1;
+    ErrorMessage errorMessage = 2;
+}
+

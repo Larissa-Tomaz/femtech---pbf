@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "auth.proto";
+import "data.proto";
+import "consentManager.proto";
+
+package pbfProto;
+
+service Gateways {
+    // Registry Service
+    rpc RegisterUser(pbfProto.UserRegistrationRequest) returns (pbfProto.UserRegistrationResponse);
+    rpc AuthenticateUser(pbfProto.UserAuthenticationRequest) returns (pbfProto.UserAuthenticationResponse);
+    rpc AuthorizeUserRole(pbfProto.UserRoleAuthorizationRequest) returns (pbfProto.UserRoleAuthorizationResponse);
+    rpc AuthorizeUserId(pbfProto.UserIdAuthorizationRequest) returns (pbfProto.UserIdAuthorizationResponse);
+    rpc LogoutUser(pbfProto.UserLogoutRequest) returns (pbfProto.UserLogoutResponse);
+    rpc DeleteUser(pbfProto.UserDeleteRequest) returns (pbfProto.UserDeleteResponse);
+    // Data Service
+    rpc GetUserData(pbfProto.GetDataRequest) returns (pbfProto.GetDataResponse);
+    rpc SubmitData(pbfProto.SubmitDataRequest) returns (pbfProto.SubmitDataResponse);
+    rpc DeleteUserData(pbfProto.DeleteDataRequest) returns (pbfProto.DeleteDataResponse);
+    rpc GetDataAccessLog(pbfProto.GetDataAccessLogRequest) returns (pbfProto.GetDataAccessLogResponse);
+    // Consent Manager Service
+    rpc SetConsent(pbfProto.SetConsentRequest) returns (pbfProto.SetConsentResponse);
+    rpc GetConsentHistory(pbfProto.GetConsentHistoryRequest) returns (pbfProto.GetConsentHistoryResponse);
+    rpc GetConsent(pbfProto.GetConsentRequest) returns (pbfProto.GetConsentResponse);
+    rpc GetConsentedDataTypes(pbfProto.GetAuthorizedDataTypesRequest) returns (pbfProto.GetAuthorizedDataTypesResponse);
+}
